@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: order
+  kafka:
+    topic:
+      order-entry: order-entries
+      order-send: order-completed
+    bootstrap-servers: localhost:9092
