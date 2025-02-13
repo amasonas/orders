@@ -46,28 +46,39 @@ class ReceiveOrderUseCaseImplTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
 
-        orderRequest = new OrderRequest();
-        orderRequest.setIdempotencyId("00000000");
-        orderRequest.setCustomerId("123456");
-        orderRequest.setVendorId("123123");
-
         orderItemRequests = Arrays.asList(
-                new OrderItemRequest("00005", 2, new BigDecimal("10.00")),
-                new OrderItemRequest("00006", 3, new BigDecimal("20.00"))
+                OrderItemRequest.builder()
+                        .productSku("00005")
+                        .quantity(2)
+                        .unitPrice(new BigDecimal("10.00"))
+                        .build(),
+                OrderItemRequest.builder()
+                        .productSku("00006")
+                        .quantity(3)
+                        .unitPrice(new BigDecimal("20.00"))
+                        .build()
         );
 
-        orderRequest.setOrderItems(orderItemRequests);
-        order = new Order();
-        order.setId(1L);
-        order.setCustomerId("123456");
-        order.setVendorId("123123");
+        orderRequest = OrderRequest.builder()
+                .idempotencyId("00000000")
+                .customerId("123456")
+                .vendorId("123123")
+                .orderItems(orderItemRequests)
+                .build();
 
-        orderItem = new OrderItem();
-        orderItem.setProductSku("00005");
-        orderItem.setQuantity(2);
-        orderItem.setUnitPrice(new BigDecimal("10.00"));
+        OrderItem orderItem = OrderItem.builder()
+                .productSku("00005")
+                .quantity(2)
+                .unitPrice(new BigDecimal("10.00"))
+                .build();
 
-        order.setItems(Arrays.asList(orderItem));
+        order = Order.builder()
+                .id(1L)
+                .customerId("123456")
+                .vendorId("123123")
+                .items(Arrays.asList(orderItem))
+                .build();
+
     }
 
     @Test
